@@ -18,6 +18,12 @@ local function spawnFruit(fruitName, player)
 
     -- Cloning and positioning the fruit
     local fruitClone = fruitModel:Clone()
+    
+    if not fruitClone.PrimaryPart then
+        warn("Fruit model does not have a PrimaryPart: " .. fruitName)
+        return false
+    end
+
     local position = character.HumanoidRootPart.Position + (character.HumanoidRootPart.CFrame.LookVector * 5)
     fruitClone:SetPrimaryPartCFrame(CFrame.new(position))
     fruitClone.Parent = workspace
