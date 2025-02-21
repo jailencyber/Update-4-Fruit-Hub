@@ -1,0 +1,43 @@
+-- List of Blox Fruits
+local fruitList = {
+    "Yeti", "Kitsune", "Shadow", "Portal", "String", "Control", "Gravity",
+    "T-Rex", "Flame", "Magma", "Dark", "Love", "Sand", "Quake", "Rumble", "Rubber",
+    "Falcon", "Barrier", "Spin", "Diamond",
+    "Smoke", "Spike", "Spring"
+}
+
+-- Function to spawn the selected fruit
+local function spawnFruit(fruitName, player)
+    local character = player.Character or player.CharacterAdded:Wait()
+    local fruitModel = game.ServerStorage:FindFirstChild(fruitName)
+
+    if not fruitModel then
+        warn("Fruit model not found: " .. fruitName)
+        return false
+    end
+
+    -- Cloning and positioning the fruit
+    local fruitClone = fruitModel:Clone()
+    local position = character.HumanoidRootPart.Position + (character.HumanoidRootPart.CFrame.LookVector * 5)
+    fruitClone:SetPrimaryPartCFrame(CFrame.new(position))
+    fruitClone.Parent = workspace
+    print(fruitName .. " spawned successfully.")
+    return true
+end
+
+-- Function to spawn all fruits
+local function spawnAllFruits(player)
+    for _, fruitName in ipairs(fruitList) do
+        if spawnFruit(fruitName, player) then
+            wait(0.5)  -- Optional delay to prevent spamming
+        end
+    end
+end
+
+-- Main execution
+local player = game.Players.LocalPlayer
+if player then
+    spawnAllFruits(player)
+else
+    warn("Local player not found. Ensure this script is running in the correct context.")
+end
